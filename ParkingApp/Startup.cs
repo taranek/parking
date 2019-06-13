@@ -3,8 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ParkingApp.Data;
+using ParkingApp.Repositories;
 
 namespace ParkingApp
 {
@@ -21,7 +24,9 @@ namespace ParkingApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            services.AddDbContext<ParkingContext>();
+            services.AddScoped<IParkingRepository, ParkingRepository>();
+            
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -45,7 +50,13 @@ namespace ParkingApp
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
+            AutoMapper.Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<Domain.Entities.Booking, Models.BookingDto>();
+                cfg.CreateMap<Domain.Entities.Spot, Models.SpotDto>();
+                cfg.CreateMap<Models.SpotDto, Domain.Entities.Spot>();
+                cfg.CreateMap<Models.BookingDto, Domain.Entities.Booking>();
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

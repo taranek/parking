@@ -5,50 +5,93 @@ export class FetchData extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { forecasts: [], loading: true };
+      this.state = { spots: [], bookings: [], loading: true };
 
-    fetch('api/SampleData/WeatherForecasts')
-      .then(response => response.json())
-      .then(data => {
-        this.setState({ forecasts: data, loading: false });
-      });
-  }
+    fetch('api/spots')
+          .then(response => response.json())
+          .then(data => { this.setState({ spots: data}); }
+      );
+    fetch('api/bookings')
+          .then(response => response.json())
+          .then(data => { this.setState({ bookings: data, loading: false }); }
+      );
+      this.state.loading = (this.state.bookings !=[]) &&(this.state.spots!=[])
+    }
 
-  static renderForecastsTable(forecasts) {
+    static renderBookingTable(bookings) {
+        return (
+            <table className='table'>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Spot Id</th>
+                        <th>Date</th>
+                        <th>Owner</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {bookings.map(booking =>
+                        <tr key={booking.id}>
+                            <td>{booking.id}</td>
+                            <td>{booking.spotId}</td>
+                            <td>{booking.date}</td>
+                            <td>{booking.owner}</td>
+                            <td> <button onClick={function () {
+                                alert(booking.id);
+                            }}>Edit</button> </td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+        );
+    }
+  static renderspotsTable(spots) {
     return (
       <table className='table'>
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
+            <th>Id</th>
+            <th>Code</th>
+            <th>Level</th>
+            <th>Primary Owner</th>
+            <th>Parking Lot</th>
+            <th>Company</th>
+            <th>Edit</th>
           </tr>
         </thead>
         <tbody>
-          {forecasts.map(forecast =>
-            <tr key={forecast.dateFormatted}>
-              <td>{forecast.dateFormatted}</td>
-              <td>{forecast.temperatureC}</td>
-              <td>{forecast.temperatureF}</td>
-              <td>{forecast.summary}</td>
+          {spots.map(spot =>
+            <tr key={spot.id}>
+              <td>{spot.id}</td>
+              <td>{spot.code}</td>
+              <td>{spot.level}</td>
+              <td>{spot.primaryOwner}</td>
+              <td>{spot.parkingLot}</td>
+              <td>{spot.company}</td>
+                        <td> <button onClick={function () {
+                            alert(spot.id);
+                        }}>Edit</button> </td>
             </tr>
           )}
         </tbody>
       </table>
     );
   }
+    render() {
+        let bookingTable = FetchData.renderBookingTable(this.state.bookings);
+        let spotsTable = FetchData.renderspotsTable(this.state.spots);
 
-  render() {
-    let contents = this.state.loading
-      ? <p><em>Loading...</em></p>
-      : FetchData.renderForecastsTable(this.state.forecasts);
+          //this.state.loading
+          //? <p><em>Loading...</em></p>
+          //: FetchData.renderspotsTable(this.state.spots);
+
 
     return (
       <div>
-        <h1>Weather forecast</h1>
-        <p>This component demonstrates fetching data from the server.</p>
-        {contents}
+        <h1>Weather spot</h1>
+            <p>This component demonstrates fetching data from the server.</p>
+            {bookingTable}
+            {spotsTable}
       </div>
     );
   }

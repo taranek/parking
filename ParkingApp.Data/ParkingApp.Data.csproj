@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20190608185028_initial.cs" />
+    <Compile Remove="Migrations\20190609175042_initial.cs" />
+    <Compile Remove="Migrations\20190609175752_firstMigration.cs" />
+    <Compile Remove="Migrations\20190609192502_backingFieldFix.cs" />
+    <Compile Remove="Migrations\20190609193653_initial.cs" />
+    <Compile Remove="Migrations\20190609193750_initial2.cs" />
+    <Compile Remove="Migrations\20190609200451_first.cs" />
+    <Compile Remove="Migrations\20190609202715_second.cs" />
+    <Compile Remove="Migrations\20190609203851_second.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.2.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ParkingApp.Domain\ParkingApp.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Logging.Console">
+      <HintPath>..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.logging.console\2.1.1\lib\netstandard2.0\Microsoft.Extensions.Logging.Console.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
