@@ -16,7 +16,6 @@ namespace ParkingApp.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
-                .HasAnnotation("PropertyAccessMode", PropertyAccessMode.Field)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -36,6 +35,9 @@ namespace ParkingApp.Data.Migrations
 
                     b.HasIndex("SpotId");
 
+                    b.HasIndex("Date", "SpotId")
+                        .IsUnique();
+
                     b.ToTable("Bookings");
                 });
 
@@ -45,7 +47,8 @@ namespace ParkingApp.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Code");
+                    b.Property<string>("Code")
+                        .IsRequired();
 
                     b.Property<string>("Company");
 
@@ -53,9 +56,14 @@ namespace ParkingApp.Data.Migrations
 
                     b.Property<string>("ParkingLot");
 
-                    b.Property<string>("PrimaryOwner");
+                    b.Property<string>("PrimaryOwner")
+                        .IsRequired();
 
                     b.HasKey("Id");
+
+                    b.HasAlternateKey("Code");
+
+                    b.HasAlternateKey("PrimaryOwner");
 
                     b.ToTable("Spots");
                 });
@@ -65,7 +73,7 @@ namespace ParkingApp.Data.Migrations
                     b.HasOne("ParkingApp.Domain.Entities.Spot", "BookedSpot")
                         .WithMany("SpotBookings")
                         .HasForeignKey("SpotId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

@@ -21,7 +21,7 @@ namespace ParkingApp.Data
 
         public ParkingContext()
         {
-            this.Database.EnsureCreated();
+            //this.Database.EnsureCreated();
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,10 +32,12 @@ namespace ParkingApp.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            //       DependentToPrincipal.SetPropertyAccessMode(PropertyAccessMode.Field)
-            
-            modelBuilder.UsePropertyAccessMode(PropertyAccessMode.Field);
-            modelBuilder.Entity<Spot>().HasMany(s => s.SpotBookings).WithOne(b => b.BookedSpot).HasForeignKey(b => b.SpotId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Spot>().HasAlternateKey(s => s.Code);
+            modelBuilder.Entity<Spot>().HasAlternateKey(s => s.PrimaryOwner);
+            modelBuilder.Entity<Spot>().HasMany(s => s.SpotBookings).WithOne(b => b.BookedSpot).HasForeignKey(b => b.SpotId);
+
+            modelBuilder.Entity<Booking>().HasIndex(b => new { b.Date, b.SpotId }).IsUnique(true);
+       //     modelBuilder.UsePropertyAccessMode(PropertyAccessMode.Field);
 
         }
     }

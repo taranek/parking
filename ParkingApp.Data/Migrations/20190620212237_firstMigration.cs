@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ParkingApp.Data.Migrations
 {
-    public partial class initial : Migration
+    public partial class firstMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,15 +14,17 @@ namespace ParkingApp.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Code = table.Column<string>(nullable: true),
+                    Code = table.Column<string>(nullable: false),
                     Level = table.Column<int>(nullable: false),
-                    PrimaryOwner = table.Column<string>(nullable: true),
+                    PrimaryOwner = table.Column<string>(nullable: false),
                     ParkingLot = table.Column<string>(nullable: true),
                     Company = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Spots", x => x.Id);
+                    table.UniqueConstraint("AK_Spots_Code", x => x.Code);
+                    table.UniqueConstraint("AK_Spots_PrimaryOwner", x => x.PrimaryOwner);
                 });
 
             migrationBuilder.CreateTable(
@@ -43,13 +45,19 @@ namespace ParkingApp.Data.Migrations
                         column: x => x.SpotId,
                         principalTable: "Spots",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_SpotId",
                 table: "Bookings",
                 column: "SpotId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bookings_Date_SpotId",
+                table: "Bookings",
+                columns: new[] { "Date", "SpotId" },
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

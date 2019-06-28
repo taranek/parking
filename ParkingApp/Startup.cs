@@ -54,7 +54,9 @@ namespace ParkingApp
             {
                 cfg.CreateMap<Domain.Entities.Booking, Models.BookingDto>();
                 cfg.CreateMap<Domain.Entities.Spot, Models.SpotDto>();
+                cfg.CreateMap<Domain.Entities.Spot, Models.SpotUpdateDto>();
                 cfg.CreateMap<Models.SpotDto, Domain.Entities.Spot>();
+                cfg.CreateMap<Models.SpotUpdateDto, Domain.Entities.Spot>();
                 cfg.CreateMap<Models.BookingDto, Domain.Entities.Booking>();
             });
             app.UseMvc(routes =>

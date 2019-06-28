@@ -45,7 +45,7 @@ namespace ParkingApp.Controllers
                 return BadRequest();
             }
 
-            var spot = _repository.GetParkingSpot(bookingDto.SpotId);
+            var spot = _repository.GetSpot(bookingDto.SpotId);
             if (spot == null)
             {
                 return StatusCode(404, $"Couldn't find the spot that has an id: {bookingDto.SpotId}");
@@ -66,6 +66,34 @@ namespace ParkingApp.Controllers
 
             return Ok(_repository.GetBooking(bookingEntity.Id));
         }
+        [HttpPut("EditBooking/{id}")]
+        public IActionResult EditBooking([FromBody] BookingDto bookingDto)
+        {
+            if (bookingDto == null)
+            {
+                return BadRequest();
+            }
 
+            var spot = _repository.GetSpot(bookingDto.SpotId);
+            if (spot == null)
+            {
+                return StatusCode(404, $"Couldn't find the spot that has an id: {bookingDto.SpotId}");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var bookingEntity = Mapper.Map<Booking>(bookingDto);
+            bookingEntity.BookedSpot = spot;
+            bookingEntity.SpotId = spot.Id;
+
+            _repository.AddBooking(bookingEntity);
+            if (!_repository.SaveChanges())
+            {
+                return StatusCode(500, "Changes has not been save");
+            }
+
+            return Ok(_repository.GetBooking(bookingEntity.Id));
+        }
     }
 }
