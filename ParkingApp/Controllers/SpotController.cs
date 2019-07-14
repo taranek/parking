@@ -1,13 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ParkingApp.Data;
-using ParkingApp.DataStores;
 using ParkingApp.Domain.Entities;
 using ParkingApp.Models;
 using ParkingApp.Repositories;
@@ -18,12 +10,10 @@ namespace ParkingApp.Controllers
     public class SpotController : Controller
     {
         private IParkingRepository _repository;
-        private Mapper _mapper;
 
         public SpotController(IParkingRepository parkingRepository)
         {
             _repository = parkingRepository;
-
         }
 
         [HttpGet]
@@ -78,7 +68,7 @@ namespace ParkingApp.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var mappedSpot = Mapper.Map<Spot>(spot);
+            var mappedSpot = Mapper.Map<SpotDto>(spot);
 
             _repository.EditSpot(id, mappedSpot);
 

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ParkingApp.Data.Migrations
 {
-    public partial class firstMigration : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,17 +14,15 @@ namespace ParkingApp.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Code = table.Column<string>(nullable: false),
+                    Code = table.Column<string>(nullable: true),
                     Level = table.Column<int>(nullable: false),
-                    PrimaryOwner = table.Column<string>(nullable: false),
+                    PrimaryOwner = table.Column<string>(nullable: true),
                     ParkingLot = table.Column<string>(nullable: true),
                     Company = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Spots", x => x.Id);
-                    table.UniqueConstraint("AK_Spots_Code", x => x.Code);
-                    table.UniqueConstraint("AK_Spots_PrimaryOwner", x => x.PrimaryOwner);
                 });
 
             migrationBuilder.CreateTable(
@@ -52,12 +50,6 @@ namespace ParkingApp.Data.Migrations
                 name: "IX_Bookings_SpotId",
                 table: "Bookings",
                 column: "SpotId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Bookings_Date_SpotId",
-                table: "Bookings",
-                columns: new[] { "Date", "SpotId" },
-                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

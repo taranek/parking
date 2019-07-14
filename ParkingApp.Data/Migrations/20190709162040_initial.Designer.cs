@@ -10,8 +10,8 @@ using ParkingApp.Data;
 namespace ParkingApp.Data.Migrations
 {
     [DbContext(typeof(ParkingContext))]
-    [Migration("20190620212237_firstMigration")]
-    partial class firstMigration
+    [Migration("20190709162040_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,9 +37,6 @@ namespace ParkingApp.Data.Migrations
 
                     b.HasIndex("SpotId");
 
-                    b.HasIndex("Date", "SpotId")
-                        .IsUnique();
-
                     b.ToTable("Bookings");
                 });
 
@@ -49,8 +46,7 @@ namespace ParkingApp.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Code")
-                        .IsRequired();
+                    b.Property<string>("Code");
 
                     b.Property<string>("Company");
 
@@ -58,14 +54,9 @@ namespace ParkingApp.Data.Migrations
 
                     b.Property<string>("ParkingLot");
 
-                    b.Property<string>("PrimaryOwner")
-                        .IsRequired();
+                    b.Property<string>("PrimaryOwner");
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("Code");
-
-                    b.HasAlternateKey("PrimaryOwner");
 
                     b.ToTable("Spots");
                 });

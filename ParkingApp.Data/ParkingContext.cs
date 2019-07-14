@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using ParkingApp.Domain.Entities;
@@ -31,14 +32,7 @@ namespace ParkingApp.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-            modelBuilder.Entity<Spot>().HasAlternateKey(s => s.Code);
-            modelBuilder.Entity<Spot>().HasAlternateKey(s => s.PrimaryOwner);
             modelBuilder.Entity<Spot>().HasMany(s => s.SpotBookings).WithOne(b => b.BookedSpot).HasForeignKey(b => b.SpotId);
-
-            modelBuilder.Entity<Booking>().HasIndex(b => new { b.Date, b.SpotId }).IsUnique(true);
-       //     modelBuilder.UsePropertyAccessMode(PropertyAccessMode.Field);
-
         }
     }
 }

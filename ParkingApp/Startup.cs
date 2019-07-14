@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ParkingApp.Data;
+using ParkingApp.Domain.Entities;
+using ParkingApp.Models;
 using ParkingApp.Repositories;
 
 namespace ParkingApp
@@ -52,12 +54,21 @@ namespace ParkingApp
             app.UseSpaStaticFiles();
             AutoMapper.Mapper.Initialize(cfg =>
             {
-                cfg.CreateMap<Domain.Entities.Booking, Models.BookingDto>();
-                cfg.CreateMap<Domain.Entities.Spot, Models.SpotDto>();
-                cfg.CreateMap<Domain.Entities.Spot, Models.SpotUpdateDto>();
-                cfg.CreateMap<Models.SpotDto, Domain.Entities.Spot>();
-                cfg.CreateMap<Models.SpotUpdateDto, Domain.Entities.Spot>();
-                cfg.CreateMap<Models.BookingDto, Domain.Entities.Booking>();
+                
+                cfg.CreateMap<Spot, SpotDto>().ForMember(dest => dest.Id, opts => opts.Condition(src => (src.Id != null)));
+                cfg.CreateMap<Spot, SpotUpdateDto>();
+                cfg.CreateMap<SpotDto, SpotUpdateDto>();
+                cfg.CreateMap<SpotUpdateDto, SpotDto>();
+                cfg.CreateMap<SpotDto, Spot>().ForMember(dest => dest.Id, opt => opt.Condition(src => src.Id != null));
+                cfg.CreateMap<SpotUpdateDto, Spot>().ForMember(x => x.Id, opt => opt.Ignore());
+
+
+
+                cfg.CreateMap<BookingDto, Booking>().ForMember(dest => dest.Id, opt => opt.Condition(src => src.Id != null));
+                cfg.CreateMap<BookingUpdateDto, BookingDto>().ForMember(x => x.Id, opt => opt.Ignore());
+                cfg.CreateMap<BookingUpdateDto, Booking>().ForMember(x => x.Id, opt => opt.Ignore());
+                cfg.CreateMap<Booking, BookingDto>().ForMember(dest => dest.Id, opt => opt.Condition(src => src.Id != null ));
+
             });
             app.UseMvc(routes =>
             {

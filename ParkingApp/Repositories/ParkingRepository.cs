@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using ParkingApp.Data;
 using ParkingApp.Domain.Entities;
+using ParkingApp.Models;
 
 namespace ParkingApp.Repositories
 {
     public class ParkingRepository : IParkingRepository
     {
         private ParkingContext _context;
+        private AutoMapper.Mapper _mapper;
         public ParkingRepository()
         {
             _context = new ParkingContext();
@@ -17,7 +18,10 @@ namespace ParkingApp.Repositories
 
         public void AddBooking(Booking booking)
         {
+            var spot = _context.Spots.FirstOrDefault(s => s.Id == booking.SpotId);
+            spot.SpotBookings.Add(booking);
             _context.Bookings.Add(booking);
+            _context.Update(spot);
         }
 
         public void AddSpot(Spot spot)
@@ -25,33 +29,25 @@ namespace ParkingApp.Repositories
             _context.Spots.Add(spot);
         }
 
-        public void EditBooking(int id, Booking booking)
+        public void EditBooking(int id, BookingDto bookingDto)
         {
-            var updatedBooking = _context.Bookings.Where(s => s.Id == id).FirstOrDefault();
-
-            // dont like that sutff below:
-            updatedBooking.Owner = booking.Owner;
-            updatedBooking.Date = booking.Date;
-            updatedBooking.SpotId = booking.SpotId;
-            updatedBooking.BookedSpot = booking.BookedSpot;
-            
+            var updatedBooking = _context.Bookings.FirstOrDefault(s => s.Id == id);
+            updatedBooking = Mapper.Map(bookingDto, updatedBooking);
+            var spot = _context.Spots.FirstOrDefault(s => s.Id == updatedBooking.SpotId);
+            var previousBooking = spot.SpotBookings.FirstOrDefault(b => b.SpotId == bookingDto.SpotId);
+            spot.SpotBookings.Remove(previousBooking);
+            spot.SpotBookings.Add(updatedBooking);
             _context.Bookings.Update(updatedBooking);
+
         }
 
-        public void EditSpot(int id,Spot spot)
+        public void EditSpot(int id,SpotDto spotDto)
         {
-            var updatedSpot = _context.Spots.Where(s => s.Id == id).FirstOrDefault();
-
-            // dont like that sutff below:
-            updatedSpot.Level = spot.Level;
-            updatedSpot.ParkingLot = spot.ParkingLot;
-            updatedSpot.PrimaryOwner = spot.PrimaryOwner;
-            updatedSpot.Code = spot.Code;
-            updatedSpot.Company = spot.Company;
-
+            var updatedSpot = _context.Spots.FirstOrDefault(s => s.Id == id);
+            updatedSpot = Mapper.Map(spotDto, updatedSpot);
             _context.Spots.Update(updatedSpot);
-          
         }
+        
         public IEnumerable<Booking> GetAllBookings()
         {
             return _context.Bookings.ToList();
@@ -70,12 +66,12 @@ namespace ParkingApp.Repositories
 
         public Booking GetBooking(int id)
         {
-            return _context.Bookings.Where(b => b.Id == id).FirstOrDefault();
+            return _context.Bookings.FirstOrDefault(b => b.Id == id);
         }
 
         public Spot GetSpot(int id)
         {
-            return _context.Spots.Where(s => s.Id == id).FirstOrDefault();
+            return _context.Spots.FirstOrDefault(s => s.Id == id);
         }
 
         public void RemoveBooking(int id)
@@ -89,7 +85,7 @@ namespace ParkingApp.Repositories
             var spot = GetSpot(id);
             while (spot.SpotBookings.Count > 0)
             {
-                var booking = _context.Bookings.Where(b => b.SpotId == id).FirstOrDefault();
+                var booking = _context.Bookings.FirstOrDefault(b => b.SpotId == id);
                 _context.Bookings.Remove(booking);
             }
             _context.Spots.Remove(spot);
