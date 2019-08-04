@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
-import { FetchData } from './components/FetchData';
+import { BookingsView } from './components/BookingsVIew';
 import { Counter } from './components/Counter';
-import { Test } from './components/Test';
+import { SpotsView } from './components/SpotsView';
+import 'typeface-roboto';
 
 export default class App extends Component {
   displayName = App.name
@@ -14,8 +15,8 @@ export default class App extends Component {
       <Layout>
         <Route exact path='/' component={Home} />
         <Route path='/counter' component={Counter} />
-        <Route path='/fetchdata' component={FetchData} />
-        <Route path='/test' component={Test} />
+        <Route path='/bookings' component={BookingsView} />
+        <Route path='/spots' component={SpotsView} />
       </Layout>
     );
   }

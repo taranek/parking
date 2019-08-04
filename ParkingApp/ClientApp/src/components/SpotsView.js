@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-export class FetchData extends Component {
-  displayName = FetchData.name
+export class SpotsView extends Component {
+  displayName = SpotsView.name
 
   constructor(props) {
     super(props);
@@ -16,34 +16,6 @@ export class FetchData extends Component {
           .then(data => { this.setState({ bookings: data, loading: false }); }
       );
       this.state.loading = (this.state.bookings !=[]) &&(this.state.spots!=[])
-    }
-
-    static renderBookingTable(bookings) {
-        return (
-            <table className='table'>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Spot Id</th>
-                        <th>Date</th>
-                        <th>Owner</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {bookings.map(booking =>
-                        <tr key={booking.id}>
-                            <td>{booking.id}</td>
-                            <td>{booking.spotId}</td>
-                            <td>{booking.date}</td>
-                            <td>{booking.owner}</td>
-                            <td> <button onClick={function () {
-                                alert(booking.id);
-                            }}>Edit</button> </td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        );
     }
   static renderspotsTable(spots) {
     return (
@@ -75,11 +47,11 @@ export class FetchData extends Component {
           )}
         </tbody>
       </table>
+      
     );
   }
     render() {
-        let bookingTable = FetchData.renderBookingTable(this.state.bookings);
-        let spotsTable = FetchData.renderspotsTable(this.state.spots);
+        let spotsTable = SpotsView.renderspotsTable(this.state.spots);
 
           //this.state.loading
           //? <p><em>Loading...</em></p>
@@ -88,9 +60,8 @@ export class FetchData extends Component {
 
     return (
       <div>
-        <h1>Weather spot</h1>
+        <h1>Spots View</h1>
             <p>This component demonstrates fetching data from the server.</p>
-            {bookingTable}
             {spotsTable}
       </div>
     );

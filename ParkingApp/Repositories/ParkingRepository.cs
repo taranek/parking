@@ -10,10 +10,14 @@ namespace ParkingApp.Repositories
     public class ParkingRepository : IParkingRepository
     {
         private ParkingContext _context;
-        private AutoMapper.Mapper _mapper;
+        private Mapper _mapper;
         public ParkingRepository()
         {
             _context = new ParkingContext();
+        }
+        public ParkingRepository(ParkingContext context)
+        {
+            _context = context;
         }
 
         public void AddBooking(Booking booking)
@@ -48,17 +52,17 @@ namespace ParkingApp.Repositories
             _context.Spots.Update(updatedSpot);
         }
         
-        public IEnumerable<Booking> GetAllBookings()
+        public ICollection<Booking> GetAllBookings()
         {
             return _context.Bookings.ToList();
         }
 
-        public IEnumerable<Booking> GetAllBookingsForSpot(int spotId)
+        public ICollection<Booking> GetAllBookingsForSpot(int spotId)
         {
             return _context.Bookings.Where(b => b.SpotId == spotId).ToList();
         }
 
-        public IEnumerable<Spot> GetAllParkingSpots()
+        public ICollection<Spot> GetAllParkingSpots()
         {
             return _context.Spots.ToList();
             

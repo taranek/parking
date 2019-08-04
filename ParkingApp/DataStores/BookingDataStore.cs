@@ -1,21 +1,18 @@
-﻿using ParkingApp.Models;
+﻿using ParkingApp.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ParkingApp.DataStores
 {
     public class BookingDataStore
     {
-
-        public static BookingDataStore Current { get; } = new BookingDataStore();
-        public List<BookingDto> Bookings { get; set; }
+        //public static BookingDataStore Current { get; } = new BookingDataStore();
+        private List<Booking> _bookings { get; set; }
         public BookingDataStore()
         {
-            Bookings = new List<BookingDto>()
+            _bookings = new List<Booking>()
             {
-                new BookingDto()
+                new Booking()
                 {
                     Id = 1,
                     SpotId = 1,
@@ -23,7 +20,7 @@ namespace ParkingApp.DataStores
                     DateStart = DateTime.Now,
                     DateEnd = DateTime.Now.AddHours(5)
                 },
-                new BookingDto()
+                new Booking()
                 {
                     Id = 2,
                     SpotId = 2,
@@ -32,6 +29,10 @@ namespace ParkingApp.DataStores
                     DateEnd = DateTime.Now.AddHours(5)
                 },
             };
+        }
+        public List<Booking> GetFakeBookings()
+        {
+            return _bookings;
         }
     }
 }

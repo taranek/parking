@@ -1,4 +1,5 @@
-﻿using ParkingApp.Models;
+﻿using ParkingApp.Domain.Entities;
+using ParkingApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,13 @@ namespace ParkingApp.DataStores
 {
     public class SpotDataStore
     {
-        public static SpotDataStore Current { get; } = new SpotDataStore();
-        public List<SpotDto> Spots { get; set; }
+        //public static SpotDataStore Current { get; } = new SpotDataStore();
+        private List<Spot> _spots { get; set; }
         public SpotDataStore()
         {
-            Spots = new List<SpotDto>()
+            _spots = new List<Spot>()
             {
-                new SpotDto()
+                new Spot()
                 {
                     Id=1,
                     Code="1A",
@@ -23,7 +24,7 @@ namespace ParkingApp.DataStores
                     ParkingLot="EP-1",
                     PrimaryOwner="Novak Djokovic",
                 },
-                new SpotDto()
+                new Spot()
                 {
                     Id=2,
                     Code="1B",
@@ -32,7 +33,7 @@ namespace ParkingApp.DataStores
                     ParkingLot="EP-1",
                     PrimaryOwner="Andy Murray",
                 },
-                new SpotDto()
+                new Spot()
                 {
                     Id=3,
                     Code="2A",
@@ -41,7 +42,7 @@ namespace ParkingApp.DataStores
                     ParkingLot="EP-1",
                     PrimaryOwner="Roger Federer",
                 },
-                new SpotDto()
+                new Spot()
                 {
                     Id=4,
                     Code="2B",
@@ -51,6 +52,10 @@ namespace ParkingApp.DataStores
                     PrimaryOwner="Rafael Nadal",
                 },
             };
+        }
+        public List<Spot> GetFakeSpots()
+        {
+            return _spots;
         }
     }
 }

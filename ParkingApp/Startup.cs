@@ -28,6 +28,7 @@ namespace ParkingApp
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<ParkingContext>();
             services.AddScoped<IParkingRepository, ParkingRepository>();
+            services.AddEntityFrameworkInMemoryDatabase();
             
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

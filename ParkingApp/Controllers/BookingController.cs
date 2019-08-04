@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using ParkingApp.Domain.Entities;
 using ParkingApp.Models;
 using ParkingApp.Repositories;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ParkingApp.Controllers
 {
@@ -17,24 +20,24 @@ namespace ParkingApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllBookings()
+        public async Task<ICollection <Booking>> GetAllBookings()
         {
             var result = _repository.GetAllBookings();
-            return Ok(result);
+            return result;
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetBookingById(int id)
+        public async Task<Booking> GetBookingById(int id)
         {
             var result = _repository.GetBooking(id);
-            return Ok(result);
+            return result;
         }
 
         [HttpGet("forSpot/{spotId}")]
-        public IActionResult GetAllBokingsForSpot(int spotId)
+        public async Task<ICollection<Booking>> GetAllBokingsForSpot(int spotId)
         {
             var result = _repository.GetAllBookingsForSpot(spotId);
-            return Ok(result);
+            return result;
         }
 
         [HttpPost("AddBooking")]

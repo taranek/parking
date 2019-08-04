@@ -1,8 +1,12 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ParkingApp.Domain.Entities;
 using ParkingApp.Models;
 using ParkingApp.Repositories;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ParkingApp.Controllers
 {
@@ -15,22 +19,23 @@ namespace ParkingApp.Controllers
         {
             _repository = parkingRepository;
         }
-
+        
         [HttpGet]
-        public IActionResult GetAllSpots()
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ICollection<Spot>> GetAllSpots()
         {
-            var result = _repository.GetAllParkingSpots();
-            return Ok(result);
+            var result =_repository.GetAllParkingSpots();
+            return result;
         }
 
         [HttpGet("GetSpotById/{id}")]
-        public IActionResult GetSpotById(int id)
+        public async Task<Spot> GetSpotById(int id)
         {
             var result = _repository.GetSpot(id);
-            return Ok(result);
+            return result;
         }
         [HttpPost("AddSpot")]
-        public IActionResult AddSpot([FromBody] SpotDto spot)
+        public async Task<ActionResult> AddSpot([FromBody] SpotDto spot)
         {
             if (spot == null)
             {
@@ -46,7 +51,7 @@ namespace ParkingApp.Controllers
 
             if (!_repository.SaveChanges())
             {
-                return StatusCode(400, "Probably bad request, but not 500 - server is fine tho");
+                return StatusCode(500, "Could not save changes.");
             }
             var addedSpot = Mapper.Map<SpotDto>(finalSpot);
             return Ok(_repository.GetSpot(finalSpot.Id));
