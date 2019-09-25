@@ -28,7 +28,7 @@ namespace ParkingApp.Controllers
             return result;
         }
 
-        [HttpGet("GetSpotById/{id}")]
+        [HttpGet("{id}")]
         public async Task<Spot> GetSpotById(int id)
         {
             var result = _repository.GetSpot(id);

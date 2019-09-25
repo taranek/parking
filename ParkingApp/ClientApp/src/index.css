@@ -1,8 +1,10 @@
-@media (max-width: 767px) {
-    /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
-    #root{
-        padding-top: 50px;
-        font-family: 'Roboto', sans-serif;
-        background: red;
-    }
+#root{
+    font-family: 'Roboto', sans-serif;
+    font-size: 16;
+    /* background: #222; */
+
 }
+html{
+    /* background: #222; */
+}
+

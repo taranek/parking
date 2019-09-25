@@ -9,5 +9,9 @@ namespace ParkingApp.Models
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }
         public string Owner { get; set; }
+        public bool IsActive()
+        {
+            return DateStart < DateTime.Now && DateTime.Now < DateEnd;
+        }
     }
 }

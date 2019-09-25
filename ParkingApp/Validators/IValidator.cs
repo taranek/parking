@@ -2,8 +2,8 @@
 {
     public interface IValidator
     {
-        bool ValidateBeforeCreate();
-        bool ValidateBeforeEdit();
-        bool ValidateBeforeDelete();
+        bool ValidateBeforeCreate( int id);
+        bool ValidateBeforeEdit(int id);
+        bool ValidateBeforeDelete(int id);
     }
 }

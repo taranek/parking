@@ -6,7 +6,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-
+import Booking from '../components/Booking';
 
 
   const styles = {
@@ -44,12 +44,7 @@ export class BookingsView extends Component {
   constructor(props) {
     super(props);
       this.state = { spots: [], bookings: [], loading: true };
-
-    fetch('api/spots')
-          .then(response => response.json())
-          .then(data => { this.setState({ spots: data}); }
-      );
-    fetch('api/bookings')
+      fetch('api/bookings')
           .then(response => response.json())
           .then(data => { this.setState({ bookings: data, loading: false }); }
       );
@@ -66,22 +61,14 @@ export class BookingsView extends Component {
         </List>
         );
     }
-  static renderspotsTable(spots) {
-    return (
-      <Box fontFamily="Roboto" fontWeight={700} >
-        {spots.map(spot=><Box key={spot.id} textAlign="center" lineHeight={3} p={1} m={0.7} style={styles}>{spot.code}</Box>)}
-      </Box>
-    );
-  }
+
     render() {
         let bookingTable = BookingsView.renderBookingTable(this.state.bookings);
-        let spotsTable = BookingsView.renderspotsTable(this.state.spots);
     return (
       <div>
         <h1>Bookings Views</h1>
             <p>This component demonstrates fetching data from the server.</p>
-            {bookingTable}
-            {spotsTable}
+            {this.state.bookings.map(booking => <Booking booking={booking}></Booking>)}
       </div>
     );
   }

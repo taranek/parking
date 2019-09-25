@@ -92,5 +92,26 @@ namespace ParkingApp.Controllers
             }
             return Ok(_repository.GetBooking(id));
         }
+        [HttpDelete("RemoveBooking/{id}")]
+        public IActionResult RemoveBooking(int id)
+        {
+            var booking = _repository.GetBooking(id);
+
+            if (booking == null)
+            {
+                return StatusCode(404, "Could not find booking to edit");
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _repository.RemoveBooking(id);
+            if (!_repository.SaveChanges())
+            {
+                return StatusCode(500, "Error with saving changes");
+            }
+            return Ok("Booking removed succesfully.");
+        }
     }
 }
