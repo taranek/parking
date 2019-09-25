@@ -18,8 +18,9 @@ export default class Spot extends Component {
       this.state ={ spot:this.props.spot,
                     isFree:this.props.spot.primaryOwner==null}
   };    
-  render(){return (
-    <Grid item xs={1}>
+  render(){
+    return (
+    <Grid item xs={1} onClick={this.props.clicked}>
       <Tooltip title={this.state.isFree ? 'This spot is free!' : this.state.spot.primaryOwner}  >
       <ButtonBase bgcolor={this.state.isFree ? 'primary.main' : 'secondary'}>
       <Box width={'50px'} height={'50px'}  className='wrapper' display='flex' flexDirection='column'alignItems="center" justifyContent="center" bgcolor={this.state.isFree? 'primary.main' : 'secondary.main'} color='white' p={1}>

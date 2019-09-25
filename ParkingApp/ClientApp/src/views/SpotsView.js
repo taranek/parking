@@ -11,8 +11,7 @@ export class SpotsView extends Component {
     
     this.chooseSpot = this.chooseSpot.bind(this);
     this.renderSpots = this.renderSpots.bind(this);
-      this.state = { spots: [], choosenSpot:null, bookings: [], hideSpotsDetail:true, loading: true };
-
+    this.state = { spots: [], choosenSpot:null, bookings: [], hideSpotsDetail:true, loading: true };
 
     fetch('api/spots')
           .then(response => response.json())
@@ -20,12 +19,44 @@ export class SpotsView extends Component {
       );
       this.state.loading = (this.state.bookings !=[]) &&(this.state.spots!=[])
     }
+
+    componentDidMount() {
+      let tmpSpots = [{
+        spot: {
+          code: '111'
+        },
+        primaryOwner: null
+      },
+      {
+        spot: {
+          code: '222'
+        },
+        primaryOwner: "null"
+      },
+      {
+        spot: {
+          code: '333'
+        },
+        primaryOwner: "null"
+      },
+      {
+        spot: {
+          code: '444'
+        },
+        primaryOwner: null
+      }];
+
+      this.setState({ spots: tmpSpots } );
+    }
+
     chooseSpot(){
      alert('Spot has been chosen');
     };
+
     renderSpots = (spot, i) =>{
-      return (<Spot key={i} spot={spot} onClick={()=>(alert('THAT IS NOT BEING TRIGGERED CORRECTLY'))}></Spot>)
+      return (<Spot key={i} spot={spot} clicked={ this.chooseSpot.bind(this) }></Spot>)
     }
+    
     render() {
     return (
       <div>
@@ -33,8 +64,7 @@ export class SpotsView extends Component {
             <p>This component demonstrates fetching data from the server.</p>
             <SpotDetails spot={this.state.choosenSpot}></SpotDetails>
             <Grid container>
-              {this.state.spots
-              .map(this.renderSpots)}
+              { this.state.spots.map(this.renderSpots) }
             </Grid>
       </div>
     );
