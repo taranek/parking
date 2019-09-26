@@ -85,7 +85,7 @@ export default class Booking extends Component {
     }
     handleFormSubmission(){
       if(this.state.formChanged){
-        fetch('https://localhost:44391/api/bookings/editbooking/'+this.state.editedBooking.id, {
+        fetch('https://localhost:44391/api/bookings/edit/'+this.state.editedBooking.id, {
           method: 'Put',
           headers: {
             'Accept': 'application/json',

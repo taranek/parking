@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SelectedListItem() {
+export default function MenuList() {
   const classes = useStyles();
   const [selectedIndex, setSelectedIndex] = React.useState([]);
 

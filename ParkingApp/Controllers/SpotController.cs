@@ -34,7 +34,7 @@ namespace ParkingApp.Controllers
             var result = _repository.GetSpot(id);
             return result;
         }
-        [HttpPost("AddSpot")]
+        [HttpPost("Add")]
         public async Task<ActionResult> AddSpot([FromBody] SpotDto spot)
         {
             if (spot == null)
@@ -57,7 +57,7 @@ namespace ParkingApp.Controllers
             return Ok(_repository.GetSpot(finalSpot.Id));
         }
 
-        [HttpPut("EditSpot/{id}")]
+        [HttpPut("Edit/{id}")]
         public IActionResult EditSpot(int id, [FromBody] SpotUpdateDto spot)
         {
             var spotFromRepo = _repository.GetSpot(id);
@@ -83,7 +83,7 @@ namespace ParkingApp.Controllers
             }
             return Ok(_repository.GetSpot(id));
         }
-        [HttpDelete("RemoveSpot/{id}")]
+        [HttpDelete("Remove/{id}")]
         public IActionResult RemoveSpot(int id)
         {
             var spotFromRepo = _repository.GetSpot(id);

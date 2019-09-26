@@ -2,9 +2,9 @@
 
 import { Glyphicon, Nav, Navbar, NavItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import './SelectedListItem.js';
+import './MenuList.js';
 import './NavMenu.css';
-import SelectedListItem from './SelectedListItem.js';
+import MenuList from './MenuList.js';
 
 export class NavMenu extends Component {
     displayName = NavMenu.name
@@ -12,7 +12,7 @@ export class NavMenu extends Component {
     render() {
         return (
             <Navbar inverse fixedTop fluid collapseOnSelect>
-                <SelectedListItem></SelectedListItem>
+                <MenuList></MenuList>
             </Navbar>
         );
     }

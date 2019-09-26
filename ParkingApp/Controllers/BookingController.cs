@@ -40,7 +40,7 @@ namespace ParkingApp.Controllers
             return result;
         }
 
-        [HttpPost("AddBooking")]
+        [HttpPost("Add")]
         public IActionResult AddBooking([FromBody] BookingDto bookingDto)
         {
             if (bookingDto == null)
@@ -67,7 +67,7 @@ namespace ParkingApp.Controllers
 
             return Ok(_repository.GetBooking(bookingEntity.Id));
         }
-        [HttpPut("EditBooking/{id}")]
+        [HttpPut("Edit/{id}")]
         public IActionResult EditBooking([FromBody] BookingUpdateDto bookingUpdateDto, int id)
         {
             if (bookingUpdateDto == null)
@@ -92,7 +92,7 @@ namespace ParkingApp.Controllers
             }
             return Ok(_repository.GetBooking(id));
         }
-        [HttpDelete("RemoveBooking/{id}")]
+        [HttpDelete("Remove/{id}")]
         public IActionResult RemoveBooking(int id)
         {
             var booking = _repository.GetBooking(id);

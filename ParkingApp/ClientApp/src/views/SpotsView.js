@@ -11,50 +11,22 @@ export class SpotsView extends Component {
     
     this.chooseSpot = this.chooseSpot.bind(this);
     this.renderSpots = this.renderSpots.bind(this);
-    this.state = { spots: [], choosenSpot:null, bookings: [], hideSpotsDetail:true, loading: true };
-
-    fetch('api/spots')
-          .then(response => response.json())
-          .then(data => { this.setState({ spots: data}); }
-      );
-      this.state.loading = (this.state.bookings !=[]) &&(this.state.spots!=[])
+    this.state = { spots: [], spotWithDetails:null, index:0, hideSpotsDetail:true, loading: true };
+    this.state.loading = (this.state.bookings !=[]) &&(this.state.spots!=[])
     }
-
-    componentDidMount() {
-      let tmpSpots = [{
-        spot: {
-          code: '111'
-        },
-        primaryOwner: null
-      },
-      {
-        spot: {
-          code: '222'
-        },
-        primaryOwner: "null"
-      },
-      {
-        spot: {
-          code: '333'
-        },
-        primaryOwner: "null"
-      },
-      {
-        spot: {
-          code: '444'
-        },
-        primaryOwner: null
-      }];
-
-      this.setState({ spots: tmpSpots } );
+    componentDidMount(){
+      fetch('api/spots')
+      .then(response => response.json())
+      .then(data => { this.setState({ spots: data}); }
+    );
     }
-
-    chooseSpot(){
-     alert('Spot has been chosen');
+    chooseSpot(i){
+     this.setState(()=>({spotWithDetails:this.state.spots[i]}));
+    //  alert(JSON.stringify(this.state.spotWithDetails));
     };
 
     renderSpots = (spot, i) =>{
-      return (<Spot key={i} spot={spot} clicked={ this.chooseSpot.bind(this) }></Spot>)
+      return (<Spot key={i} spot={spot} clicked={ ()=>this.chooseSpot(i)}></Spot>)
     }
     
     render() {
@@ -62,7 +34,9 @@ export class SpotsView extends Component {
       <div>
         <h1>Spots View</h1>
             <p>This component demonstrates fetching data from the server.</p>
-            <SpotDetails spot={this.state.choosenSpot}></SpotDetails>
+            <Box m={2}>
+            <SpotDetails spot={this.state.spotWithDetails}></SpotDetails>  
+            </Box>
             <Grid container>
               { this.state.spots.map(this.renderSpots) }
             </Grid>

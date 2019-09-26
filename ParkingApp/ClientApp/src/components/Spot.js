@@ -16,21 +16,22 @@ export default class Spot extends Component {
   constructor(props) {
       super(props);
       this.state ={ spot:this.props.spot,
-                    isFree:this.props.spot.primaryOwner==null}
+                    isFree:(this.props.spot.primaryOwner==null || this.props.spot.primaryOwner.trim().length==0)}
   };    
   render(){
     return (
-    <Grid item xs={1} onClick={this.props.clicked}>
-      <Tooltip title={this.state.isFree ? 'This spot is free!' : this.state.spot.primaryOwner}  >
+    <Grid item xs={1} >
+      <Tooltip title={this.state.isFree ? 'FREE' : this.state.spot.primaryOwner}  >
       <ButtonBase bgcolor={this.state.isFree ? 'primary.main' : 'secondary'}>
-      <Box width={'50px'} height={'50px'}  className='wrapper' display='flex' flexDirection='column'alignItems="center" justifyContent="center" bgcolor={this.state.isFree? 'primary.main' : 'secondary.main'} color='white' p={1}>
-        <Box>
+      <Box height={'50px'} key={this.props.key} onClick={this.props.clicked} 
+      display='flex' flexDirection='column'alignItems="center" justifyContent="center" 
+      bgcolor={this.state.isFree? 'primary.main' : 'secondary.main'} color='white' p={1}>
+        <div>
           {this.state.isFree? null: <DriveEtaIcon></DriveEtaIcon> }
-        </Box>
-        <Box>
+          </div>
+          <div>
           {this.state.spot.code}
-        </Box>
-             
+          </div>
       </Box>
       </ButtonBase>
       </Tooltip>

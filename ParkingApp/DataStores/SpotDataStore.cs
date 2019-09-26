@@ -9,7 +9,6 @@ namespace ParkingApp.DataStores
 {
     public class SpotDataStore
     {
-        //public static SpotDataStore Current { get; } = new SpotDataStore();
         private List<Spot> _spots { get; set; }
         public SpotDataStore()
         {
