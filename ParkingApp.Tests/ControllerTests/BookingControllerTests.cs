@@ -18,7 +18,7 @@ namespace Tests.ControllerTests
     {
         private ParkingRepository _fakeRepository;
         private ParkingContext _context;
-        private BookingController _service;
+        private BookingController _controller;
 
         private static List<Booking> _bookings;
         private static List<Spot> _spots;
@@ -37,7 +37,7 @@ namespace Tests.ControllerTests
             _context.Spots.AddRange(_spots);
             _context.SaveChanges();
 
-            _service = new BookingController(_fakeRepository);
+            _controller = new BookingController(_fakeRepository);
         }
         [TearDown]
         public void TearDown()
@@ -47,29 +47,29 @@ namespace Tests.ControllerTests
         [Test]
         public void GetAllBookings_ShouldReturn_2()
         {
-            var serviceCall = _service.GetAllBookings();
-            serviceCall.Result.Count.ShouldBe(2);
-            serviceCall.Result.ShouldNotBeNull();
-            serviceCall.Result.ShouldNotBeEmpty();
+            var apiCall = _controller.GetAllBookings();
+            apiCall.Result.Count.ShouldBe(2);
+            apiCall.Result.ShouldNotBeNull();
+            apiCall.Result.ShouldNotBeEmpty();
         }
         [Test]
         public void GetBookingById_99_ShouldReturnNull()
         {
-            var serviceCall = _service.GetBookingById(99);
-            serviceCall.Result.ShouldBe(null);
+            var apiCall = _controller.GetBookingById(99);
+            apiCall.Result.ShouldBe(null);
         }
         [Test]
         public void GetBookingById_0_ShouldReturnNull()
         {
-            var serviceCall = _service.GetBookingById(0);
-            serviceCall.Result.ShouldBe(null);
+            var apiCall = _controller.GetBookingById(0);
+            apiCall.Result.ShouldBe(null);
         }
         [Test]
         public void GetBookingById_2_ShouldReturnSecondSpot()
         {
-            var serviceCall = _service.GetBookingById(2);
-            serviceCall.Result.Id.ShouldBe(2);
-            serviceCall.Result.ShouldNotBeNull();
+            var apiCall = _controller.GetBookingById(2);
+            apiCall.Result.Id.ShouldBe(2);
+            apiCall.Result.ShouldNotBeNull();
         }
     }
 }

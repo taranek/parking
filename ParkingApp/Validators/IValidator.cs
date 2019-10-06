@@ -1,9 +1,9 @@
 ﻿namespace ParkingApp.Domain.Validators
 {
-    public interface IValidator
+    public interface IValidator<T>
     {
-        bool ValidateBeforeCreate( int id);
-        bool ValidateBeforeEdit(int id);
-        bool ValidateBeforeDelete(int id);
+        bool ValidateBeforeCreate( T entity);
+        bool ValidateBeforeEdit(T id);
+        bool ValidateBeforeDelete(T id);
     }
 }

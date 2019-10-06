@@ -1,26 +1,27 @@
-﻿using ParkingApp.Repositories;
+﻿using ParkingApp.Domain.Entities;
+using ParkingApp.Repositories;
 using System;
 
 namespace ParkingApp.Domain.Validators
 {
-    public class BookingValidator : IValidator
+    public class BookingValidator : IValidator<Booking>
     {
         private ParkingRepository _parkingRepository;
         public BookingValidator(ParkingRepository repository)
         {
             _parkingRepository = repository;
         }
-        public bool ValidateBeforeCreate(int id)
+        public bool ValidateBeforeCreate(Booking id)
         {
             return true;
         }
 
-        public bool ValidateBeforeDelete(int bookingId)
+        public bool ValidateBeforeDelete(Booking bookingId)
         {
             return true;
         }
 
-        public bool ValidateBeforeEdit(int id)
+        public bool ValidateBeforeEdit(Booking b)
         {
             throw new NotImplementedException();
         }
