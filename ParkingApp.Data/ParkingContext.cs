@@ -32,7 +32,7 @@ namespace ParkingApp.Data
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
-                .UseSqlServer("Server=TOMEK;Database=ParkingAppDataSeeded;Trusted_Connection=True;")
+                .UseSqlServer("Server=EPLLH5CG6480NHG\\SQLEXPRESS;Database=ParkingDBMain;Trusted_Connection=True")
                 .UseLoggerFactory(DbLogger);
             }
         }
